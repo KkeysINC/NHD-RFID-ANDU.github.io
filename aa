@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UserXD Premium UI</title>
+    <style>
+        :root {
+            --bg-main: #f5f6fa;
+            --bg-sidebar: #ffffff;
+            --bg-card: #ffffff;
+            --text-main: #2f3640;
+            --text-muted: #7f8c8d;
+            --accent: #00a8ff;
+            --border: #dcdde1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Window Container */
+        .window {
+            width: 650px;
+            height: 420px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Header Bar */
+        .header {
+            height: 45px;
+            background: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+
+        .title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .close-btn {
+            background: #ff7675;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Main Workspace split */
+        .container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 160px;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .tab-btn {
+            padding: 10px 15px;
+            text-align: left;
+            background: none;
+            border: none;
+            font-size: 13px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .tab-btn:hover {
+            background: rgba(0, 168, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            background: rgba(0, 168, 255, 0.1);
+            color: var(--accent);
+            border-left: 3px solid var(--accent);
+            padding-left: 12px;
+        }
+
+        /* Elements Content Area */
+        .content {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .content.active {
+            display: flex;
+        }
+
+        /* Sections and UI Components */
+        .section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-top: 5px;
+            margin-bottom: 2px;
+            font-weight: 700;
+        }
+
+        .element-row {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        /* UI Input Styles */
+        .toggle-input {
+            width: 40px;
+            height: 20px;
+            appearance: none;
+            background: #b2bec3;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .toggle-input:checked {
+            background: var(--accent);
+        }
+
+        .toggle-input::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: white;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s;
+        }
+
+        .toggle-input:checked::before {
+            left: 22px;
+        }
+
+        .slider-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 100%;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .slider-input {
+            width: 100%;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .color-picker {
+            border: none;
+            width: 30px;
+            height: 25px;
+            cursor: pointer;
+            background: none;
+        }
+
+        .action-btn {
+            background: #ff7675;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="window" id="rayfieldWindow">
+        <!-- Header -->
+        <div class="header">
+            <span class="title">UserXD Premium 👑</span>
+            <button class="close-btn" onclick="destroyUI()"></button>
+        </div>
+
+        <div class="container">
+            <!-- Sidebar Navigation -->
+            <div class="sidebar">
+                <button class="tab-btn active" onclick="openTab(event, 'farming')">🌍 Farming</button>
+                <button class="tab-btn" onclick="openTab(event, 'visuals')">👁️ Visuals (ESP)</button>
+                <button class="tab-btn" onclick="openTab(event, 'player')">👤 Player</button>
+                <button class="tab-btn" onclick="openTab(event, 'security')">🛡️ Security</button>
+                <button class="tab-btn" onclick="openTab(event, 'misc')">⚙️ Misc</button>
+            </div>
+
+            <!-- Tabs Content Area -->
+            <div class="main-content" style="flex: 1; overflow-y: auto;">
+
+                <!-- Farming Tab -->
+                <div id="farming" class="content active">
+                    <div class="section-title">Teleport</div>
+                    <div class="element-row">
+                        <span>🌌 Auto Teleport (World 1)</span>
+                        <input type="checkbox" class="toggle-input" id="TeleportW1Tog">
+                    </div>
+                    <div class="element-row">
+                        <span>🌋 Auto Teleport (World 2)</span>
+                        <input type="checkbox" class="toggle-input" id="TeleportW2Tog">
+                    </div>
+                    <div class="element-row">
+                        <div class="slider-container">
+                            <div class="slider-header">
+                                <span>⏱️ Teleport Delay</span>
+                                <span id="teleportVal">0.2s</span>
+                            </div>
+                            <input type="range" class="slider-input" min="0.1" max="3" step="0.1" value="0.2" oninput="updateSlider('teleportVal', this.value, 's')">
+                        </div>
+                    </div>
+
+                    <div class="section-title">Auto Farming</div>
+                    <div class="element-row">
+                        <span>⚡ Auto Speed</span>
+                        <input type="checkbox" class="toggle-input" id="AutoSpeedTog">
+                    </div>
+                    <div class="element-row">
+                        <div class="slider-container">
+                            <div class="slider-header">
+                                <span>⏱️ Speed Movement Delay</span>
+                                <span id="speedDelVal">0.6s</span>
+                            </div>
+                            <input type="range" class="slider-input" min="0.1" max="2" step="0.1" value="0.6" oninput="updateSlider('speedDelVal', this.value, 's')">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visuals Tab -->
+                <div id="visuals" class="content">
+                    <div class="section-title">Player ESP (Wallhack)</div>
+                    <div class="element-row">
+                        <span>👁️ Enable ESP</span>
+                        <input type="checkbox" class="toggle-input" id="ESPTog">
+                    </div>
+                    <div class="element-row">
+                        <span>🎨 ESP Color</span>
+                        <input type="color" class="color-picker" value="#ff0000">
+                    </div>
+                </div>
+
+                <!-- Player Tab -->
+                <div id="player" class="content">
+                    <div class="section-title">Character Control</div>
+                    <div class="element-row">
+                        <div class="slider-container">
+                            <div class="slider-header">
+                                <span>🏃 WalkSpeed</span>
+                                <span id="wsVal">16 WS</span>
+                            </div>
+                            <input type="range" class="slider-input" min="16" max="500" step="1" value="16" oninput="updateSlider('wsVal', this.value, ' WS')">
+                        </div>
+                    </div>
+                    <div class="element-row">
+                        <div class="slider-container">
